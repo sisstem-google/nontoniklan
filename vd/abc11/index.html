@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>doods.avcode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace, Arial, sans-serif;
+      background: #000;
+      color: #0f0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+      background: #010101;
+      border-bottom: 2px solid #0f0;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+    }
+    header a {
+      color: #0f0;
+      margin-left: 20px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    header a:hover {
+      text-shadow: 0 0 8px #0f0;
+    }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .categories a {
+      background: none;
+      border: 1px solid #0f0;
+      color: #0f0;
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-size: 14px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .categories a:hover {
+      background: #0f0;
+      color: #000;
+      box-shadow: 0 0 12px #0f0;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 25px;
+    }
+    .video-card {
+      background: #111;
+      border: 1px solid #0f0;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 0 8px rgba(0, 255, 0, 0.2);
+      transition: 0.3s;
+    }
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px #0f0;
+    }
+    .video-card video,
+    .video-card img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #0f0;
+      display: block;
+    }
+    .info {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #bfffbf;
+    }
+    .stats {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stats svg {
+      width: 18px;
+      height: 18px;
+      fill: #0f0;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 14px;
+      border: 1px solid #0f0;
+      background: none;
+      color: #0f0;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #0f0;
+      color: #000;
+      box-shadow: 0 0 15px #0f0;
+    }
+
+    /* thumbnail dengan tombol play */
+    .thumbnail-container {
+      position: relative;
+      cursor: pointer;
+    }
+    .thumbnail-container img {
+      display: block;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #0f0;
+    }
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.6);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .play-button svg {
+      width: 28px;
+      height: 28px;
+      fill: #0f0;
+    }
+
+    /* ===== Promo Card ===== */
+    .promo-card {
+      background: linear-gradient(145deg, #0c0c0c, #121212);
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 15px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.15);
+      color: #ddd;
+      border: 1px solid rgba(0, 255, 128, 0.15);
+      transition: 0.3s;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .promo-card:hover {
+      box-shadow: 0 0 35px rgba(0, 255, 128, 0.25);
+      transform: translateY(-2px);
+    }
+    .promo-card h3 {
+      color: #00ff80;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-shadow: 0 0 10px #00ff80;
+    }
+    .promo-card p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 8px 0;
+      color: #bbb;
+    }
+    .promo-link {
+      color: #1da1f2;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      display: inline-block;
+      margin: 10px 0;
+      transition: 0.3s;
+    }
+    .promo-link:hover {
+      color: #00bfff;
+      text-shadow: 0 0 8px #00bfff;
+    }
+    .social-share {
+      margin: 15px 0 5px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+    .social-share a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      border: 1px solid rgba(0, 255, 128, 0.25);
+      box-shadow: 0 0 10px rgba(0, 255, 100, 0.2);
+      transition: 0.3s;
+    }
+    .social-share a:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 18px rgba(0, 255, 128, 0.6);
+      background: #111;
+    }
+    .social-share img {
+      width: 20px;
+      height: 20px;
+      filter: brightness(1.2);
+    }
+  </style>
+  <script type='text/javascript' src='//shorterwanderer.com/9e/93/0a/9e930aab11e2b7852bd4c0697f1c2621.js'></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div><b style="color:lime;">doods.avcode</b></div>
+  </header>
+
+  <!-- Categories -->
+  <div class="categories">
+      <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21">📁 Barat</a>
+      <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21">📁 Model</a>
+      <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21">📁 Jepang</a>
+      <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21">📁 Pelajar</a>
+      <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21">📁 Hijab</a>
+      <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21">📁 Live</a>
+      <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21">📁 Tante</a>
+      <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21">📁 OmeTV</a>
+    </div>
+      <!-- Header -->
+  <header>
+    <div><b style="color:lime;"></b></div>
+  </header>
+
+  <!-- Video List -->
+  <div class="video-grid">
+    <!-- Video 1 -->
+    <div class="video-card">
+      <video src="https://cdn.videy.co/EM4vmS8n1.mp4" controls id="video1"></video>
+      <div class="info">
+        <div class="stats">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 17h2v-7H3v7zm4 0h2V7H7v10zm4 0h2v-4h-2v4zm4 0h2V4h-2v13zm4 0h2V10h-2v7z"/>
+          </svg>
+          <span id="views1">0</span> views
+        </div>
+        <button class="btn" onclick="window.open('https://shorterwanderer.com/tnhjisk9?key=daf817598fdfda29223cbc65e420277e','_blank')">Download</button>
+      </div>
+
+      <!-- Promo Card masuk di sini -->
+      <div class="promo-card">
+        <h3><span>🔥</span> KUMPULAN VIDEO B0KEP VIRAL <span>🔥</span></h3>
+        <p>Dapatkan Akses <b>GRATIS</b> Koleksi Asupan VIRAL TERBARU hanya di CH kami!</p>
+        <p>👇👇👇</p>
+        <a href="https://t.me/avcodexfamily" class="promo-link">https://t.me/avcodexfamily</a>
+        <p>Nikmati pilihan video terbaru setiap hari yang pasti bikin kamu terhibur 😎</p>
+
+        <div class="social-share">
+          <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21"><img src="https://files.catbox.moe/s1zwky.png" alt="Facebook"></a>
+          <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21"><img src="https://files.catbox.moe/2hoqrg.jpeg" alt="WhatsApp"></a>
+          <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21"><img src="https://files.catbox.moe/oww0pa.png" alt="Telegram"></a>
+          <a href="https://whatsapp.com/channel/0029VafygDTIiRouVGP6Mk21"><img src="https://files.catbox.moe/cv364y.jpeg" alt="Twitter"></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video 2 -->
+    <div class="video-card">
+      <a href="#" target="_blank" class="thumbnail-container" id="link2">
+        <img id="thumb2" src="" alt="Thumbnail 2">
+        <div class="play-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </div>
+      </a>
+      <div class="info">
+        <p><b>BOKEP YANG LAGI VIRAL 💦</b></p>
+        <p>Tonton Sekarang</p>
+        <div class="stats">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 17h2v-7H3v7zm4 0h2V7H7v10zm4 0h2v-4h-2v4zm4 0h2V4h-2v13zm4 0h2V10h-2v7z"/>
+          </svg>
+          <span id="views2">0</span> views
+        </div>
+      </div>
+    </div>
+
+    <!-- Video 3 -->
+    <div class="video-card">
+      <a href="#" target="_blank" class="thumbnail-container" id="link3">
+        <img id="thumb3" src="" alt="Thumbnail 3">
+        <div class="play-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </div>
+      </a>
+      <div class="info">
+        <p><b>VIDIO BOKEP TERBARU 💦</b></p>
+        <p>Tonton Sekarang</p>
+        <div class="stats">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 17h2v-7H3v7zm4 0h2V7H7v10zm4 0h2v-4h-2v4zm4 0h2V4h-2v13zm4 0h2V10h-2v7z"/>
+          </svg>
+          <span id="views3">0</span> views
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Video 1 views
+    const video1 = document.getElementById("video1");
+    const views1 = document.getElementById("views1");
+    let v1Count = localStorage.getItem("views_video1") || 170;
+    views1.textContent = v1Count;
+    video1.addEventListener("play", () => {
+      let newViews = parseInt(localStorage.getItem("views_video1") || 170) + 1;
+      localStorage.setItem("views_video1", newViews);
+      views1.textContent = newViews;
+    });
+
+    // Random thumb & link
+    const thumbImages = [
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/FB_IMG_1757871513988.jpg",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/imgg/26.png",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/IMG_20250915_084724.jpg",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/IMG_20250915_090641.jpg",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/c3ebc781673b114f34069b2c1516e27a.jpg",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/images.jpeg",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/42.png",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/70.png",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/3.png",
+      "https://cdn.jsdelivr.net/gh/sisstem-google/xhub@main/foto/92.png"
+    ];
+    const websites = [
+      "https://shorterwanderer.com/tnhjisk9?key=daf817598fdfda29223cbc65e420277e",
+      "https://shorterwanderer.com/tnhjisk9?key=daf817598fdfda29223cbc65e420277e",
+      "https://shorterwanderer.com/tnhjisk9?key=daf817598fdfda29223cbc65e420277e"
+    ];
+
+    // Video 2
+    document.getElementById("thumb2").src =
+      thumbImages[Math.floor(Math.random() * thumbImages.length)];
+    document.getElementById("link2").href =
+      websites[Math.floor(Math.random() * websites.length)];
+    let v2Count = localStorage.getItem("views_video2") || 220;
+    v2Count++;
+    localStorage.setItem("views_video2", v2Count);
+    document.getElementById("views2").textContent = v2Count;
+
+    // Video 3
+    document.getElementById("thumb3").src =
+      thumbImages[Math.floor(Math.random() * thumbImages.length)];
+    document.getElementById("link3").href =
+      websites[Math.floor(Math.random() * websites.length)];
+    let v3Count = localStorage.getItem("views_video3") || 95;
+    v3Count++;
+    localStorage.setItem("views_video3", v3Count);
+    document.getElementById("views3").textContent = v3Count;
+  </script>
+</body>
+</html>
